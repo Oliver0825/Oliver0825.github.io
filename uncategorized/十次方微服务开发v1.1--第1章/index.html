@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="第1章-系统设计与工程搭建学习目标：  了解十次方的需求分析  理解十次方的系统设计以及RESTful   完成项目的前期准备工作（配置JDK 与 本地仓库）  完成十次方父模块与公共模块的搭建  完成基础微服务-标签CRUD的功能，掌握公共异常处理类   1 需求分析1.1 十次方简介《十次方》是程序员的专属社交平台，包括头条、问答、活动、交友、吐槽、招聘六大频道。   十次方名称的由来：2的1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="陶希的blog">
+<meta property="og:url" content="http://yoursite.com/uncategorized/十次方微服务开发v1.1--第1章/index.html">
+<meta property="og:site_name" content="陶希的blog">
+<meta property="og:description" content="第1章-系统设计与工程搭建学习目标：  了解十次方的需求分析  理解十次方的系统设计以及RESTful   完成项目的前期准备工作（配置JDK 与 本地仓库）  完成十次方父模块与公共模块的搭建  完成基础微服务-标签CRUD的功能，掌握公共异常处理类   1 需求分析1.1 十次方简介《十次方》是程序员的专属社交平台，包括头条、问答、活动、交友、吐槽、招聘六大频道。   十次方名称的由来：2的1">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/uncategorized/十次方微服务开发v1.1--第1章/image%5C1-1.jpg">
+<meta property="og:image" content="http://yoursite.com/uncategorized/十次方微服务开发v1.1--第1章/image/1-1.png">
+<meta property="og:image" content="http://yoursite.com/uncategorized/十次方微服务开发v1.1--第1章/image/1_3.png">
+<meta property="og:image" content="http://yoursite.com/uncategorized/十次方微服务开发v1.1--第1章/image/1_4.png">
+<meta property="og:image" content="http://yoursite.com/uncategorized/十次方微服务开发v1.1--第1章/image/1_7.png">
+<meta property="og:image" content="http://yoursite.com/uncategorized/十次方微服务开发v1.1--第1章/image/1_8.png">
+<meta property="og:image" content="http://yoursite.com/uncategorized/十次方微服务开发v1.1--第1章/image/1_9.png">
+<meta property="og:image" content="http://yoursite.com/uncategorized/十次方微服务开发v1.1--第1章/image/1_10.png">
+<meta property="og:image" content="http://yoursite.com/uncategorized/十次方微服务开发v1.1--第1章/image/1_6.png">
+<meta property="og:image" content="http://yoursite.com/uncategorized/十次方微服务开发v1.1--第1章/image/1_11.png">
+<meta property="og:image" content="http://yoursite.com/uncategorized/十次方微服务开发v1.1--第1章/image/1_12.png">
+<meta property="og:image" content="http://yoursite.com/uncategorized/十次方微服务开发v1.1--第1章/image/1-2.png">
+<meta property="og:image" content="http://yoursite.com/uncategorized/十次方微服务开发v1.1--第1章/image/1_17.png">
+<meta property="og:image" content="http://yoursite.com/uncategorized/十次方微服务开发v1.1--第1章/image/1_18.png">
+<meta property="og:image" content="http://yoursite.com/uncategorized/十次方微服务开发v1.1--第1章/image/1_19.png">
+<meta property="og:updated_time" content="2019-05-05T09:28:29.611Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="陶希的blog">
+<meta name="twitter:description" content="第1章-系统设计与工程搭建学习目标：  了解十次方的需求分析  理解十次方的系统设计以及RESTful   完成项目的前期准备工作（配置JDK 与 本地仓库）  完成十次方父模块与公共模块的搭建  完成基础微服务-标签CRUD的功能，掌握公共异常处理类   1 需求分析1.1 十次方简介《十次方》是程序员的专属社交平台，包括头条、问答、活动、交友、吐槽、招聘六大频道。   十次方名称的由来：2的1">
+<meta name="twitter:image" content="http://yoursite.com/uncategorized/十次方微服务开发v1.1--第1章/image%5C1-1.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/uncategorized/十次方微服务开发v1.1--第1章/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title> | 陶希的blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">陶希的blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">云笔记</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/uncategorized/十次方微服务开发v1.1--第1章/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="陶希">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/325132.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陶希的blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-10 12:00:58" itemprop="dateCreated datePublished" datetime="2019-06-10T12:00:58+08:00">2019-06-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-05 17:28:29" itemprop="dateModified" datetime="2019-05-05T17:28:29+08:00">2019-05-05</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="第1章-系统设计与工程搭建"><a href="#第1章-系统设计与工程搭建" class="headerlink" title="第1章-系统设计与工程搭建"></a>第1章-系统设计与工程搭建</h1><p>学习目标：</p>
+<ul>
+<li><p>了解十次方的需求分析</p>
+</li>
+<li><p>理解十次方的系统设计以及RESTful </p>
+</li>
+<li><p>完成项目的前期准备工作（配置JDK 与 本地仓库）</p>
+</li>
+<li><p>完成十次方父模块与公共模块的搭建</p>
+</li>
+<li><p>完成基础微服务-标签CRUD的功能，掌握公共异常处理类</p>
+</li>
+</ul>
+<h1 id="1-需求分析"><a href="#1-需求分析" class="headerlink" title="1 需求分析"></a>1 需求分析</h1><h2 id="1-1-十次方简介"><a href="#1-1-十次方简介" class="headerlink" title="1.1 十次方简介"></a>1.1 十次方简介</h2><p>《十次方》是程序员的专属社交平台，包括头条、问答、活动、交友、吐槽、招聘六大频道。</p>
+<p><img src="image%5C1-1.jpg" alt> </p>
+<p>十次方名称的由来：2的10次方为1024，程序员都懂的。</p>
+<p>如果你是一位技术大咖，那么赶快发布文章，增加知名度吧。</p>
+<p>如果你是一名技术小白，那么赶快到问答频道寻求帮助的，这里高手如云哦！</p>
+<p>如果你不想错过各种技术交流会，那么请经常关注活动频道吧~</p>
+<p>如果你还是单身，那么赶快到交友频道找到你心仪的另一半。</p>
+<p>如果你有太多的苦恼，那么赶快吐个槽吧~</p>
+<p>如果你正在找工作或是想跳槽拿高薪，那么来招聘频道淘金吧~</p>
+<h2 id="1-2-需求规格说明书"><a href="#1-2-需求规格说明书" class="headerlink" title="1.2 需求规格说明书"></a>1.2 需求规格说明书</h2><blockquote>
+<p>详见： 资源\文档\十次方需求规格说明书.docx</p>
+</blockquote>
+<h1 id="2-系统设计"><a href="#2-系统设计" class="headerlink" title="2 系统设计"></a>2 系统设计</h1><h2 id="2-1-系统架构"><a href="#2-1-系统架构" class="headerlink" title="2.1 系统架构"></a>2.1 系统架构</h2><p>《十次方》采用前后端分离的系统架构，后端架构为：</p>
+<p>SpringBoot+SpringCloud+SpringMVC+SpringData  我们把这种架构也称之为全家桶。</p>
+<h2 id="2-2-模块划分"><a href="#2-2-模块划分" class="headerlink" title="2.2 模块划分"></a>2.2 模块划分</h2><p>我们的十次方工程共分为18个子模块（其中17个是微服务）</p>
+<p><img src="image/1-1.png" alt></p>
+<p>我们本章内容是搭建父工程、公共子模块tensquare_common和基础微服务tensquare_base。</p>
+<table>
+<thead>
+<tr>
+<th>模块名称</th>
+<th>模块中文名称</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>tensquare_common</td>
+<td>公共模块</td>
+</tr>
+<tr>
+<td>tensquare_article</td>
+<td>文章微服务</td>
+</tr>
+<tr>
+<td>tensquare_base</td>
+<td>基础微服务</td>
+</tr>
+<tr>
+<td>tensquare_friend</td>
+<td>交友微服务</td>
+</tr>
+<tr>
+<td>tensquare_gathering</td>
+<td>活动微服务</td>
+</tr>
+<tr>
+<td>tensquare_qa</td>
+<td>问答微服务</td>
+</tr>
+<tr>
+<td>tensquare_recruit</td>
+<td>招聘微服务</td>
+</tr>
+<tr>
+<td>tensquare_user</td>
+<td>用户微服务</td>
+</tr>
+<tr>
+<td>tensquare_spit</td>
+<td>吐槽微服务</td>
+</tr>
+<tr>
+<td>tensquare_search</td>
+<td>搜索微服务</td>
+</tr>
+<tr>
+<td>tensquare_web</td>
+<td>前台微服务网关</td>
+</tr>
+<tr>
+<td>tensquare_manager</td>
+<td>后台微服务网关</td>
+</tr>
+<tr>
+<td>tensquare_eureka</td>
+<td>注册中心</td>
+</tr>
+<tr>
+<td>tensquare_config</td>
+<td>配置中心</td>
+</tr>
+<tr>
+<td>tensquare_sms</td>
+<td>短信微服务</td>
+</tr>
+<tr>
+<td>tensquare_article_crawler</td>
+<td>文章爬虫微服务</td>
+</tr>
+<tr>
+<td>tensquare_user_crawler</td>
+<td>用户爬虫微服务</td>
+</tr>
+<tr>
+<td>tensquare_ai</td>
+<td>人工智能微服务</td>
+</tr>
+</tbody></table>
+<h2 id="2-3-表结构分析"><a href="#2-3-表结构分析" class="headerlink" title="2.3 表结构分析"></a>2.3 表结构分析</h2><p>我们这里采用的分库分表设计，每个业务模块为1个独立的数据库。</p>
+<p>tensquare_article  文章</p>
+<p>tensquare_base    基础</p>
+<p>tensquare_friend   交友</p>
+<p>tensquare_gathering 活动</p>
+<p>tensquare_qa 问答</p>
+<p>tensquare_recruit 招聘</p>
+<p>tensquare_user   用户</p>
+<p>tensquare_spit   吐槽</p>
+<blockquote>
+<p>详见    资源\文档\十次方数据库文档.xlsx</p>
+</blockquote>
+<h2 id="2-4-API文档"><a href="#2-4-API文档" class="headerlink" title="2.4 API文档"></a>2.4 API文档</h2><p>课程提供了前后端开发接口文档（采用Swagger语言进行编写），并与Nginx进行了整合。双击Nginx执行文件启动后，在地址栏输入<a href="http://localhost:801" target="_blank" rel="noopener">http://localhost:801</a> 即可访问API文档</p>
+<p>前后端约定的返回码列表：</p>
+<table>
+<thead>
+<tr>
+<th>状态描述</th>
+<th>返回码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>成功</td>
+<td>20000</td>
+</tr>
+<tr>
+<td>失败</td>
+<td>20001</td>
+</tr>
+<tr>
+<td>用户名密码错误</td>
+<td>20002</td>
+</tr>
+<tr>
+<td>权限不足</td>
+<td>20003</td>
+</tr>
+<tr>
+<td>远程调用失败</td>
+<td>20004</td>
+</tr>
+<tr>
+<td>重复操作</td>
+<td>20005</td>
+</tr>
+</tbody></table>
+<h2 id="2-5-理解RESTful"><a href="#2-5-理解RESTful" class="headerlink" title="2.5 理解RESTful"></a>2.5 理解RESTful</h2><h3 id="2-5-1-何为RESTful"><a href="#2-5-1-何为RESTful" class="headerlink" title="2.5.1 何为RESTful"></a>2.5.1 何为RESTful</h3><p>​    RESTful架构，就是目前最流行的一种互联网软件架构。它结构清晰、符合标准、易于理解、扩展方便，所以正得到越来越多网站的采用。REST这个词，是<a href="http://en.wikipedia.org/wiki/Roy_Fielding" target="_blank" rel="noopener">Roy Thomas Fielding</a>在他2000年的<a href="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm" target="_blank" rel="noopener">博士论文</a>中提出的    .</p>
+<p>​    REST 是Representational State Transfer的缩写，翻译是”表现层状态转化”。 可以总结为一句话：REST是所有Web应用都应该遵守的架构设计指导原则。 </p>
+<p>​    面向资源是REST最明显的特征，对于同一个资源的一组不同的操作。资源是服务器上一个可命名的抽象概念，资源是以名词为核心来组织的，首先关注的是名词。REST要求，必须通过统一的接口来对资源执行各种操作。对于每个资源只能执行一组有限的操作。</p>
+<p>​    7个HTTP方法：GET/POST/PUT/DELETE/PATCH/HEAD/OPTIONS</p>
+<h3 id="2-5-2-接口规范"><a href="#2-5-2-接口规范" class="headerlink" title="2.5.2 接口规范"></a>2.5.2 接口规范</h3><p>我们在项目中用到了GET/POST/PUT/DELETE四种方法，现在介绍一下这四种方法</p>
+<h4 id="GET"><a href="#GET" class="headerlink" title="GET"></a>GET</h4><ul>
+<li><ul>
+<li>安全且幂等</li>
+<li>获取表示</li>
+<li>变更时获取表示（缓存）</li>
+</ul>
+</li>
+<li><ul>
+<li>200（OK） - 表示已在响应中发出</li>
+</ul>
+</li>
+<li><ul>
+<li>204（无内容） - 资源有空表示</li>
+<li>301（Moved Permanently） - 资源的URI已被更新</li>
+<li>303（See Other） - 其他（如，负载均衡）</li>
+<li>304（not modified）- 资源未更改（缓存）</li>
+<li>400 （bad request）- 指代坏请求（如，参数错误）</li>
+<li>404 （not found）- 资源不存在</li>
+<li>406 （not acceptable）- 服务端不支持所需表示</li>
+<li>500 （internal server error）- 通用错误响应</li>
+<li>503 （Service Unavailable）- 服务端当前无法处理请求</li>
+</ul>
+</li>
+</ul>
+<h4 id="POST"><a href="#POST" class="headerlink" title="POST"></a>POST</h4><ul>
+<li><ul>
+<li>不安全且不幂等</li>
+<li>使用服务端管理的（自动产生）的实例号创建资源</li>
+<li>创建子资源</li>
+<li>部分更新资源</li>
+<li>如果没有被修改，则不过更新资源（乐观锁）</li>
+</ul>
+</li>
+<li><ul>
+<li>200（OK）- 如果现有资源已被更改</li>
+</ul>
+</li>
+<li><ul>
+<li>201（created）- 如果新资源被创建</li>
+<li>202（accepted）- 已接受处理请求但尚未完成（异步处理）</li>
+<li>301（Moved Permanently）- 资源的URI被更新</li>
+<li>303（See Other）- 其他（如，负载均衡）</li>
+<li>400（bad request）- 指代坏请求</li>
+<li>404 （not found）- 资源不存在</li>
+<li>406 （not acceptable）- 服务端不支持所需表示</li>
+<li>409 （conflict）- 通用冲突</li>
+<li>412 （Precondition Failed）- 前置条件失败（如执行条件更新时的冲突）</li>
+<li>415 （unsupported media type）- 接受到的表示不受支持</li>
+<li>500 （internal server error）- 通用错误响应</li>
+<li>503 （Service Unavailable）- 服务当前无法处理请求</li>
+</ul>
+</li>
+</ul>
+<h4 id="PUT"><a href="#PUT" class="headerlink" title="PUT"></a>PUT</h4><ul>
+<li><ul>
+<li>不安全但幂等</li>
+<li>用客户端管理的实例号创建一个资源</li>
+<li>通过替换的方式更新资源</li>
+<li>如果未被修改，则更新资源（乐观锁）</li>
+</ul>
+</li>
+<li><ul>
+<li>200 （OK）- 如果已存在资源被更改</li>
+</ul>
+</li>
+<li><ul>
+<li>201 （created）- 如果新资源被创建</li>
+<li>301（Moved Permanently）- 资源的URI已更改</li>
+<li>303 （See Other）- 其他（如，负载均衡）</li>
+<li>400 （bad request）- 指代坏请求</li>
+<li>404 （not found）- 资源不存在</li>
+<li>406 （not acceptable）- 服务端不支持所需表示</li>
+<li>409 （conflict）- 通用冲突</li>
+<li>412 （Precondition Failed）- 前置条件失败（如执行条件更新时的冲突）</li>
+<li>415 （unsupported media type）- 接受到的表示不受支持</li>
+<li>500 （internal server error）- 通用错误响应</li>
+<li>503 （Service Unavailable）- 服务当前无法处理请求</li>
+</ul>
+</li>
+</ul>
+<h4 id="DELETE"><a href="#DELETE" class="headerlink" title="DELETE"></a>DELETE</h4><ul>
+<li><ul>
+<li>不安全但幂等</li>
+<li>删除资源</li>
+</ul>
+</li>
+<li><ul>
+<li>200 （OK）- 资源已被删除</li>
+</ul>
+</li>
+<li><ul>
+<li>301 （Moved Permanently）- 资源的URI已更改</li>
+<li>303 （See Other）- 其他，如负载均衡</li>
+<li>400 （bad request）- 指代坏请求</li>
+<li>404 （not found）- 资源不存在</li>
+<li>409 （conflict）- 通用冲突</li>
+<li>500 （internal server error）- 通用错误响应</li>
+<li>503 （Service Unavailable）- 服务端当前无法处理请求<br>​</li>
+</ul>
+</li>
+</ul>
+<h1 id="3-项目前期准备"><a href="#3-项目前期准备" class="headerlink" title="3 项目前期准备"></a>3 项目前期准备</h1><h2 id="3-1-开发环境要求"><a href="#3-1-开发环境要求" class="headerlink" title="3.1 开发环境要求"></a>3.1 开发环境要求</h2><p>JDK1.8</p>
+<p>数据库mysql  5.7</p>
+<p>开发工具 idea 2017.1.2</p>
+<p>maven版本3.3.9</p>
+<p>docker 最新版本</p>
+<p>centos7  </p>
+<p>VMware Workstation Pro 12</p>
+<p>注：十次方课程所有的环境都是基于docker的，所以我们在资料中提供了安装了docker的centos7镜像，并已经下载了课程中使用的mysql等常用docker镜像。 </p>
+<p>将centos7镜像挂载到VMware Workstation，修改内存为8G。 </p>
+<p>用户名root  密码itcast</p>
+<h2 id="3-2-MYSQL建库建表（容器）"><a href="#3-2-MYSQL建库建表（容器）" class="headerlink" title="3.2 MYSQL建库建表（容器）"></a>3.2 MYSQL建库建表（容器）</h2><p>我们的mysql使用的是docker环境的</p>
+<p>（1）下载镜像（此步可省略）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull centos/mysql-57-centos7</span><br></pre></td></tr></table></figure>
+
+<p>（2）创建容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -di --name=tensquare_mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456  [镜像ID]</span><br></pre></td></tr></table></figure>
+
+<p>（3）SQLyog连接MYSQL ，并执行建表SQL    详见配套资料</p>
+<h2 id="3-3-测试工具Postman"><a href="#3-3-测试工具Postman" class="headerlink" title="3.3 测试工具Postman"></a>3.3 测试工具Postman</h2><p><strong>Postman中文版</strong>是postman这款强大网页调试工具的windows客户端，提供功能强大的 Web API &amp; HTTP 请求调试。软件功能非常强大，界面简洁明晰、操作方便快捷，设计得很人性化。Postman中文版能够发送任何类型的HTTP 请求 (GET, HEAD, POST, PUT..)，附带任何数量的参数+ </p>
+<blockquote>
+<p>课程配套资源中提供了Postman的安装文件<br>“资源\微服务资源\配套软件\Postman-win64-6.0.10-Setup.exe”</p>
+</blockquote>
+<p>默认安装即可</p>
+<p>（1）安装</p>
+<p>（2）注册账号</p>
+<p><img src="image/1_3.png" alt></p>
+<p><img src="image/1_4.png" alt></p>
+<h2 id="3-4-IDEA配置"><a href="#3-4-IDEA配置" class="headerlink" title="3.4 IDEA配置"></a>3.4 IDEA配置</h2><p>详见   “资源\微服务资源\本地仓库\扩展文档”   </p>
+<h1 id="4-十次方工程搭建"><a href="#4-十次方工程搭建" class="headerlink" title="4 十次方工程搭建"></a>4 十次方工程搭建</h1><h2 id="4-1-搭建父工程"><a href="#4-1-搭建父工程" class="headerlink" title="4.1 搭建父工程"></a>4.1 搭建父工程</h2><p>（1）选择菜单file-new project  ,弹出窗口中左侧菜单选择Maven   ，点击next按钮</p>
+<p><img src="image/1_7.png" alt></p>
+<p>（2）填写GroupId 和ArtifacetId  ,点击next按钮</p>
+<p><img src="image/1_8.png" alt></p>
+<p>（3）点击Finish  完成</p>
+<p><img src="image/1_9.png" alt></p>
+<p>（4）删除src文件夹</p>
+<p><img src="image/1_10.png" alt></p>
+<p>（5）修改pom.xml    添加以下配置 （资源已提供:   资源\配置文件\springboot）</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">   <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">name</span>&gt;</span>tensquare_parent<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">description</span>&gt;</span>十次方项目-黑马程序员<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.1.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">relativePath</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.build.sourceEncoding</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">project.reporting.outputEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.reporting.outputEncoding</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">java.version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">repositories</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">repository</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">id</span>&gt;</span>spring-snapshots<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">name</span>&gt;</span>Spring Snapshots<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">url</span>&gt;</span>https://repo.spring.io/snapshot<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">snapshots</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">enabled</span>&gt;</span>true<span class="tag">&lt;/<span class="name">enabled</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">snapshots</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">repository</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">repository</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">id</span>&gt;</span>spring-milestones<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">name</span>&gt;</span>Spring Milestones<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">url</span>&gt;</span>https://repo.spring.io/milestone<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">snapshots</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">enabled</span>&gt;</span>false<span class="tag">&lt;/<span class="name">enabled</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">snapshots</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">repository</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">repositories</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="tag">&lt;<span class="name">pluginRepositories</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">pluginRepository</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">id</span>&gt;</span>spring-snapshots<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">name</span>&gt;</span>Spring Snapshots<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">url</span>&gt;</span>https://repo.spring.io/snapshot<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">snapshots</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">enabled</span>&gt;</span>true<span class="tag">&lt;/<span class="name">enabled</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">snapshots</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">pluginRepository</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">pluginRepository</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">id</span>&gt;</span>spring-milestones<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">name</span>&gt;</span>Spring Milestones<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">url</span>&gt;</span>https://repo.spring.io/milestone<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">snapshots</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">enabled</span>&gt;</span>false<span class="tag">&lt;/<span class="name">enabled</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">snapshots</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">pluginRepository</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">pluginRepositories</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>（6）当IDEA右下角弹出提示 ,点击Enable Auto-Import  自动导入依赖 </p>
+<p><img src="image/1_6.png" alt></p>
+<h2 id="4-2-搭建公共子模块"><a href="#4-2-搭建公共子模块" class="headerlink" title="4.2 搭建公共子模块"></a>4.2 搭建公共子模块</h2><h3 id="4-2-1-搭建子模块步骤"><a href="#4-2-1-搭建子模块步骤" class="headerlink" title="4.2.1 搭建子模块步骤"></a>4.2.1 搭建子模块步骤</h3><p>搭建公共子模块 tensquare_common</p>
+<p>（1）右键点击工程，弹出菜单选择 New -Module   弹出窗口选择Maven  ,点击next按钮</p>
+<p><img src="image/1_11.png" alt></p>
+<p>（2）点击finish</p>
+<p><img src="image/1_12.png" alt></p>
+<h3 id="4-2-2-创建返回结果实体类"><a href="#4-2-2-创建返回结果实体类" class="headerlink" title="4.2.2 创建返回结果实体类"></a>4.2.2 创建返回结果实体类</h3><p>（1）新建entity包，包下创建类Result，用于控制器类返回结果</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> entity;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Result</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> flag;<span class="comment">//是否成功</span></span><br><span class="line">    <span class="keyword">private</span> Integer code;<span class="comment">// 返回码</span></span><br><span class="line">    <span class="keyword">private</span> String message;<span class="comment">//返回信息</span></span><br><span class="line">    <span class="keyword">private</span> Object data;<span class="comment">// 返回数据</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Result</span><span class="params">(<span class="keyword">boolean</span> flag, Integer code, String message, Object data)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>();</span><br><span class="line">		<span class="keyword">this</span>.flag = flag;</span><br><span class="line">		<span class="keyword">this</span>.code = code;</span><br><span class="line">		<span class="keyword">this</span>.message = message;</span><br><span class="line">		<span class="keyword">this</span>.data = data;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Result</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Result</span><span class="params">(<span class="keyword">boolean</span> flag, Integer code, String message)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>();</span><br><span class="line">		<span class="keyword">this</span>.flag = flag;</span><br><span class="line">		<span class="keyword">this</span>.code = code;</span><br><span class="line">		<span class="keyword">this</span>.message = message;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isFlag</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> flag;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFlag</span><span class="params">(<span class="keyword">boolean</span> flag)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.flag = flag;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Integer <span class="title">getCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> code;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCode</span><span class="params">(Integer code)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.code = code;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getMessage</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> message;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMessage</span><span class="params">(String message)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.message = message;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">getData</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> data;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setData</span><span class="params">(Object data)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.data = data;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>提示：IDEA 生成getter and setter的快捷键是Alt+Insert </p>
+<p>返回码详见设计文档</p>
+<p>（2）创建类PageResult ，用于返回分页结果</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 分页结果类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> &lt;T&gt;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PageResult</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">private</span> Long total;</span><br><span class="line">   <span class="keyword">private</span> List&lt;T&gt; rows;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">PageResult</span><span class="params">(Long total, List&lt;T&gt; rows)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">super</span>();</span><br><span class="line">      <span class="keyword">this</span>.total = total;</span><br><span class="line">      <span class="keyword">this</span>.rows = rows;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">//getter and setter ....</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-3-返回码定义类"><a href="#4-2-3-返回码定义类" class="headerlink" title="4.2.3 返回码定义类"></a>4.2.3 返回码定义类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> entity;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 状态码实体类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StatusCode</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> OK=<span class="number">20000</span>;<span class="comment">//成功</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> ERROR =<span class="number">20001</span>;<span class="comment">//失败</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> LOGINERROR =<span class="number">20002</span>;<span class="comment">//用户名或密码错误</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> ACCESSERROR =<span class="number">20003</span>;<span class="comment">//权限不足</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> REMOTEERROR =<span class="number">20004</span>;<span class="comment">//远程调用失败</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> REPERROR =<span class="number">20005</span>;<span class="comment">//重复操作</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-4-分布式ID生成器"><a href="#4-2-4-分布式ID生成器" class="headerlink" title="4.2.4 分布式ID生成器"></a>4.2.4 分布式ID生成器</h3><p>​    由于我们的数据库在生产环境中要分片部署（MyCat）,所以我们不能使用数据库本身的自增功能来产生主键值，只能由程序来生成唯一的主键值。我们采用的是开源的 twitter( 非官方中文惯称：推特.是国外的一个网站，是一个社交网络及微博客服务) 的 snowflake （雪花）算法。</p>
+<p><img src="image/1-2.png" alt></p>
+<p>​    默认情况下41bit的时间戳可以支持该算法使用到2082年，10bit的工作机器id可以支持1024台机器，序列号支持1毫秒产生4096个自增序列id  . SnowFlake的优点是，整体上按照时间自增排序，并且整个分布式系统内不会产生ID碰撞(由数据中心ID和机器ID作区分)，并且效率较高，经测试，SnowFlake每秒能够产生26万ID左右</p>
+<p>​    我们课程中已经提供了分布式ID生成器  </p>
+<blockquote>
+<p>   资源\微服务资源\工具类\IdWorker.java    </p>
+</blockquote>
+<p>tensquare_common工程创建util包，将IdWorker.java直接拷贝到tensquare_common工程的util包中。</p>
+<h1 id="5-基础微服务-标签CRUD"><a href="#5-基础微服务-标签CRUD" class="headerlink" title="5 基础微服务-标签CRUD"></a>5 基础微服务-标签CRUD</h1><h2 id="5-1-模块搭建"><a href="#5-1-模块搭建" class="headerlink" title="5.1 模块搭建"></a>5.1 模块搭建</h2><p>（1）搭建基础微服务模块tensquare_base ,  pom.xml引入依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-jpa<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.tensquare<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>tensquare_common<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>（2）创建启动类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.tensquare.base;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> util.IdWorker;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 启动类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(BaseApplication.class);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> IdWorker <span class="title">idWorker</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> IdWorker(<span class="number">1</span>,<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>提示：IDEA创建main方法的快捷键是 psvm  </p>
+<p>（3）在resources下创建application.yml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span> </span><br><span class="line"><span class="attr">  port:</span> <span class="number">9001</span></span><br><span class="line"><span class="attr">spring:</span> </span><br><span class="line"><span class="attr">  application:</span>  </span><br><span class="line"><span class="attr">    name:</span> <span class="string">tensquare-base</span> <span class="comment">#指定服务名</span></span><br><span class="line"><span class="attr">  datasource:</span>  </span><br><span class="line"><span class="attr">    driverClassName:</span> <span class="string">com.mysql.jdbc.Driver</span></span><br><span class="line"><span class="attr">    url:</span> <span class="attr">jdbc:mysql://192.168.184.134:3306/tensquare_base?characterEncoding=utf-8</span></span><br><span class="line"><span class="attr">    username:</span> <span class="string">root</span></span><br><span class="line"><span class="attr">    password:</span> <span class="number">123456</span></span><br><span class="line"><span class="attr">  jpa:</span> </span><br><span class="line"><span class="attr">    database:</span> <span class="string">MySQL</span></span><br><span class="line"><span class="attr">    show-sql:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    generate-ddl:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="5-2-标签管理-CRUD"><a href="#5-2-标签管理-CRUD" class="headerlink" title="5.2 标签管理-CRUD"></a>5.2 标签管理-CRUD</h2><h3 id="5-2-1-表结构分析"><a href="#5-2-1-表结构分析" class="headerlink" title="5.2.1 表结构分析"></a>5.2.1 表结构分析</h3><p>表名称：tb_label</p>
+<table>
+<thead>
+<tr>
+<th>字段名称</th>
+<th>字段含义</th>
+<th>字段类型</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>ID</td>
+<td>文本</td>
+<td></td>
+</tr>
+<tr>
+<td>labelname</td>
+<td>标签名称</td>
+<td>文本</td>
+<td></td>
+</tr>
+<tr>
+<td>state</td>
+<td>状态</td>
+<td>文本</td>
+<td>0：无效  1：有效</td>
+</tr>
+<tr>
+<td>count</td>
+<td>使用数量</td>
+<td>整型</td>
+<td></td>
+</tr>
+<tr>
+<td>fans</td>
+<td>关注数</td>
+<td>整型</td>
+<td></td>
+</tr>
+<tr>
+<td>recommend</td>
+<td>是否推荐</td>
+<td>文本</td>
+<td>0：不推荐 1:推荐</td>
+</tr>
+</tbody></table>
+<h3 id="5-2-2-CRUD的实现"><a href="#5-2-2-CRUD的实现" class="headerlink" title="5.2.2 CRUD的实现"></a>5.2.2 CRUD的实现</h3><p>（1）实体类</p>
+<p>创建com.tensquare.base包，包下创建pojo包 ，包下创建实体类Label </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.tensquare.base.pojo;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.domain.EntityScan;</span><br><span class="line"><span class="keyword">import</span> javax.persistence.Entity;</span><br><span class="line"><span class="keyword">import</span> javax.persistence.Id;</span><br><span class="line"><span class="keyword">import</span> javax.persistence.Table;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 标签实体类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@Table</span>(name=<span class="string">"tb_label"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Label</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="keyword">private</span> String id;<span class="comment">//</span></span><br><span class="line">    <span class="keyword">private</span> String labelname;<span class="comment">//标签名称</span></span><br><span class="line">    <span class="keyword">private</span> String state;<span class="comment">//状态</span></span><br><span class="line">    <span class="keyword">private</span> Long count;<span class="comment">//使用数量</span></span><br><span class="line">    <span class="keyword">private</span> Long fans;<span class="comment">//关注数</span></span><br><span class="line">    <span class="keyword">private</span> String recommend;<span class="comment">//是否推荐</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(String id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.id = id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getLabelname</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> labelname;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLabelname</span><span class="params">(String labelname)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.labelname = labelname;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getState</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> state;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setState</span><span class="params">(String state)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.state = state;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Long <span class="title">getCount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCount</span><span class="params">(Long count)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.count = count;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Long <span class="title">getFans</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> fans;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFans</span><span class="params">(Long fans)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.fans = fans;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getRecommend</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> recommend;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setRecommend</span><span class="params">(String recommend)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.recommend = recommend;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（3）创建数据访问接口</p>
+<p>com.tensquare.base包下创建dao包，包下创建LabelDao接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.tensquare.base.dao;</span><br><span class="line"><span class="keyword">import</span> com.tensquare.base.pojo.Label;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.jpa.repository.JpaRepository;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.jpa.repository.JpaSpecificationExecutor;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 标签数据访问接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">LabelDao</span> <span class="keyword">extends</span> <span class="title">JpaRepository</span>&lt;<span class="title">Label</span>,<span class="title">String</span>&gt;,<span class="title">JpaSpecificationExecutor</span>&lt;<span class="title">Label</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>JpaRepository提供了基本的增删改查</p>
+<p>JpaSpecificationExecutor用于做复杂的条件查询</p>
+<p>（4）业务逻辑类</p>
+<p>com.tensquare.base包下创建service包，包下创建LabelService类。 在这个类中，我们实现基本的增删改查功能  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.tensquare.base.service;</span><br><span class="line"><span class="keyword">import</span> com.tensquare.base.dao.LabelDao;</span><br><span class="line"><span class="keyword">import</span> com.tensquare.base.pojo.Label;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</span><br><span class="line"><span class="keyword">import</span> util.IdWorker;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 标签业务逻辑类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LabelService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> LabelDao labelDao;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> IdWorker idWorker;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 查询全部标签</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Label&gt; <span class="title">findAll</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> labelDao.findAll();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 根据ID查询标签</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Label <span class="title">findById</span><span class="params">(String id)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> labelDao.findById(id).get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 增加标签</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> label</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(Label label)</span></span>&#123;</span><br><span class="line">        label.setId( idWorker.nextId()+<span class="string">""</span> );<span class="comment">//设置ID</span></span><br><span class="line">        labelDao.save(label);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 修改标签</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> label</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(Label label)</span></span>&#123;</span><br><span class="line">        labelDao.save(label);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 删除标签</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> id</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">deleteById</span><span class="params">(String id)</span></span>&#123;</span><br><span class="line">        labelDao.deleteById(id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（5）控制器类</p>
+<p>com.tensquare.base包下创建controller包，创建LabelController</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.tensquare.base.controller;</span><br><span class="line"><span class="keyword">import</span> com.tensquare.base.pojo.Label;</span><br><span class="line"><span class="keyword">import</span> com.tensquare.base.service.LabelService;</span><br><span class="line"><span class="keyword">import</span> entity.Result;</span><br><span class="line"><span class="keyword">import</span> entity.StatusCode;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.*;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 标签控制层</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/label"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LabelController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> LabelService labelService;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 查询全部列表</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(method = RequestMethod.GET)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Result <span class="title">findAll</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> s = <span class="number">1</span>/<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Result(<span class="keyword">true</span>, StatusCode.OK,<span class="string">"查询成功"</span>, labelService.findAll());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *  根据ID查询标签</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(value=<span class="string">"/&#123;id&#125;"</span>,method = RequestMethod.GET)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Result <span class="title">findById</span><span class="params">(@PathVariable String id)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Result(<span class="keyword">true</span>,StatusCode.OK,<span class="string">"查询成功"</span>,labelService.findById(id));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *  增加标签</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> label</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(method = RequestMethod.POST)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Result <span class="title">add</span><span class="params">( @RequestBody Label label)</span></span>&#123;</span><br><span class="line">        labelService.add(label);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Result(<span class="keyword">true</span>,StatusCode.OK,<span class="string">"增加成功"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *  修改标签</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> label</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(value=<span class="string">"/&#123;id&#125;"</span> ,method = RequestMethod.PUT)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Result <span class="title">update</span><span class="params">( @RequestBody Label label,@PathVariable String id)</span></span>&#123;</span><br><span class="line">        label.setId(id);</span><br><span class="line">        labelService.update(label);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Result(<span class="keyword">true</span>,StatusCode.OK,<span class="string">"修改成功"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 删除标签</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(value=<span class="string">"/&#123;id&#125;"</span> ,method = RequestMethod.DELETE)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Result <span class="title">deleteById</span><span class="params">(@PathVariable String id)</span></span>&#123;</span><br><span class="line">        labelService.deleteById(id);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Result(<span class="keyword">true</span>,StatusCode.OK,<span class="string">"删除成功"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-2-3-功能测试"><a href="#5-2-3-功能测试" class="headerlink" title="5.2.3 功能测试"></a>5.2.3 功能测试</h3><p>（1）测试查询全部数据 </p>
+<p>使用浏览器测试GET方法  <a href="http://localhost:9001/label" target="_blank" rel="noopener">http://localhost:9001/label</a></p>
+<p>（2）测试根据ID查询标签</p>
+<p>使用浏览器测试GET方法  <a href="http://localhost:9001/label/1" target="_blank" rel="noopener">http://localhost:9001/label/1</a></p>
+<p>（3）测试增加：</p>
+<p>使用<strong>postMan</strong>工具来进行测试POST PUT DELETE等方法。</p>
+<p><img src="image/1_17.png" alt></p>
+<p>（4）测试修改</p>
+<p><img src="image/1_18.png" alt></p>
+<p>（5）测试删除</p>
+<p><img src="image/1_19.png" alt></p>
+<h2 id="5-3-公共异常处理"><a href="#5-3-公共异常处理" class="headerlink" title="5.3 公共异常处理"></a>5.3 公共异常处理</h2><p>为了使我们的代码更容易维护，我们创建一个类集中处理异常</p>
+<p>在om.tensquare.base.controller包下创建公共异常处理类BaseExceptionHandler</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 统一异常处理类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@ControllerAdvice</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseExceptionHandler</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">    <span class="meta">@ExceptionHandler</span>(value = Exception.class)</span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Result <span class="title">error</span><span class="params">( Exception e)</span> </span>&#123;</span><br><span class="line">        e.printStackTrace();        </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Result(<span class="keyword">false</span>, StatusCode.ERROR, e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-4-跨域处理"><a href="#5-4-跨域处理" class="headerlink" title="5.4 跨域处理"></a>5.4 跨域处理</h2><p>​    跨域是什么？浏览器从一个域名的网页去请求另一个域名的资源时，域名、端口、协议任一不同，都是跨域 。我们是采用前后端分离开发的，也是前后@CrossOrigin端分离部署的，必然会存在跨域问题。  怎么解决跨域？很简单，只需要在controller类上添加注解    即可！这个注解其实是CORS的实现。</p>
+<p>​    CORS(Cross-Origin Resource Sharing, 跨源资源共享)是W3C出的一个标准，其思想是使用自定义的HTTP头部让浏览器与服务器进行沟通，从而决定请求或响应是应该成功，还是应该失败。因此，要想实现CORS进行跨域，需要服务器进行一些设置，同时前端也需要做一些配置和分析。本文简单的对服务端的配置和前端的一些设置进行分析。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h2 id="谈谈你对Restful的理解"><a href="#谈谈你对Restful的理解" class="headerlink" title="谈谈你对Restful的理解"></a>谈谈你对Restful的理解</h2><h2 id="你做过的项目是不是分布式的？ID如何保证不会重复"><a href="#你做过的项目是不是分布式的？ID如何保证不会重复" class="headerlink" title="你做过的项目是不是分布式的？ID如何保证不会重复"></a>你做过的项目是不是分布式的？ID如何保证不会重复</h2><h2 id="你是如何实现对异常的处理"><a href="#你是如何实现对异常的处理" class="headerlink" title="你是如何实现对异常的处理"></a>你是如何实现对异常的处理</h2>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/uncategorized/a/" rel="next" title>
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/325132.jpg" alt="陶希">
+            
+              <p class="site-author-name" itemprop="name">陶希</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第1章-系统设计与工程搭建"><span class="nav-number">1.</span> <span class="nav-text">第1章-系统设计与工程搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-需求分析"><span class="nav-number">2.</span> <span class="nav-text">1 需求分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-十次方简介"><span class="nav-number">2.1.</span> <span class="nav-text">1.1 十次方简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-需求规格说明书"><span class="nav-number">2.2.</span> <span class="nav-text">1.2 需求规格说明书</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-系统设计"><span class="nav-number">3.</span> <span class="nav-text">2 系统设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-系统架构"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 系统架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-模块划分"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 模块划分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-表结构分析"><span class="nav-number">3.3.</span> <span class="nav-text">2.3 表结构分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-API文档"><span class="nav-number">3.4.</span> <span class="nav-text">2.4 API文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-理解RESTful"><span class="nav-number">3.5.</span> <span class="nav-text">2.5 理解RESTful</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-1-何为RESTful"><span class="nav-number">3.5.1.</span> <span class="nav-text">2.5.1 何为RESTful</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-2-接口规范"><span class="nav-number">3.5.2.</span> <span class="nav-text">2.5.2 接口规范</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#GET"><span class="nav-number">3.5.2.1.</span> <span class="nav-text">GET</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#POST"><span class="nav-number">3.5.2.2.</span> <span class="nav-text">POST</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PUT"><span class="nav-number">3.5.2.3.</span> <span class="nav-text">PUT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DELETE"><span class="nav-number">3.5.2.4.</span> <span class="nav-text">DELETE</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-项目前期准备"><span class="nav-number">4.</span> <span class="nav-text">3 项目前期准备</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-开发环境要求"><span class="nav-number">4.1.</span> <span class="nav-text">3.1 开发环境要求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-MYSQL建库建表（容器）"><span class="nav-number">4.2.</span> <span class="nav-text">3.2 MYSQL建库建表（容器）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-测试工具Postman"><span class="nav-number">4.3.</span> <span class="nav-text">3.3 测试工具Postman</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-IDEA配置"><span class="nav-number">4.4.</span> <span class="nav-text">3.4 IDEA配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-十次方工程搭建"><span class="nav-number">5.</span> <span class="nav-text">4 十次方工程搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-搭建父工程"><span class="nav-number">5.1.</span> <span class="nav-text">4.1 搭建父工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-搭建公共子模块"><span class="nav-number">5.2.</span> <span class="nav-text">4.2 搭建公共子模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-1-搭建子模块步骤"><span class="nav-number">5.2.1.</span> <span class="nav-text">4.2.1 搭建子模块步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-2-创建返回结果实体类"><span class="nav-number">5.2.2.</span> <span class="nav-text">4.2.2 创建返回结果实体类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-3-返回码定义类"><span class="nav-number">5.2.3.</span> <span class="nav-text">4.2.3 返回码定义类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-4-分布式ID生成器"><span class="nav-number">5.2.4.</span> <span class="nav-text">4.2.4 分布式ID生成器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-基础微服务-标签CRUD"><span class="nav-number">6.</span> <span class="nav-text">5 基础微服务-标签CRUD</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-模块搭建"><span class="nav-number">6.1.</span> <span class="nav-text">5.1 模块搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-标签管理-CRUD"><span class="nav-number">6.2.</span> <span class="nav-text">5.2 标签管理-CRUD</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-1-表结构分析"><span class="nav-number">6.2.1.</span> <span class="nav-text">5.2.1 表结构分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-2-CRUD的实现"><span class="nav-number">6.2.2.</span> <span class="nav-text">5.2.2 CRUD的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-3-功能测试"><span class="nav-number">6.2.3.</span> <span class="nav-text">5.2.3 功能测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-公共异常处理"><span class="nav-number">6.3.</span> <span class="nav-text">5.3 公共异常处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4-跨域处理"><span class="nav-number">6.4.</span> <span class="nav-text">5.4 跨域处理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#谈谈你对Restful的理解"><span class="nav-number">7.1.</span> <span class="nav-text">谈谈你对Restful的理解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#你做过的项目是不是分布式的？ID如何保证不会重复"><span class="nav-number">7.2.</span> <span class="nav-text">你做过的项目是不是分布式的？ID如何保证不会重复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#你是如何实现对异常的处理"><span class="nav-number">7.3.</span> <span class="nav-text">你是如何实现对异常的处理</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">陶希</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
