@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[你好，hexo]]></title>
+    <url>%2F%E5%82%BB%E9%80%BC%2F%E4%BD%A0%E5%A5%BD%EF%BC%8Chexo%2F</url>
+    <content type="text"><![CDATA[这是个备份测试]]></content>
+      <categories>
+        <category>傻逼</category>
+      </categories>
+      <tags>
+        <tag>测试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>%2Funcategorized%2Ftest%2F</url>
+    <content type="text"><![CDATA[安抚都告诉]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <url>%2Funcategorized%2Fhello-world%2F</url>
+    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[0]]></title>
     <url>%2F%E7%8B%97%E4%BB%94%2F0%2F</url>
     <content type="text"><![CDATA[阿凡达]]></content>
@@ -36,18 +57,8 @@
       </tags>
   </entry>
   <entry>
-    <title></title>
-    <url>%2Funcategorized%2Ftest%2F</url>
-    <content type="text"><![CDATA[安抚都告诉]]></content>
-  </entry>
-  <entry>
     <title><![CDATA[test_my_site]]></title>
     <url>%2Funcategorized%2Ftest-my-site%2F</url>
     <content type="text"></content>
-  </entry>
-  <entry>
-    <title><![CDATA[Hello World]]></title>
-    <url>%2Funcategorized%2Fhello-world%2F</url>
-    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
   </entry>
 </search>
