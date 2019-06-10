@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title></title>
-    <url>%2Funcategorized%2Fa%2F</url>
-    <content type="text"><![CDATA[1234567891011121314151617181920212223@Autowiredprivate RabbitTemplate rabbitTemplate;@Testpublic void testSend()&#123; rabbitTemplate.convertAndSend(&quot;&quot;,&quot;itcast&quot;,&quot;rabbitmq第一次发送消息&quot;);&#125;@Testpublic void testSendFanout()&#123; rabbitTemplate.convertAndSend(&quot;chuanzhi&quot;,&quot;&quot;,&quot;fanout分列模式&quot;);&#125;@Testpublic void testSendTopic1()&#123; rabbitTemplate.convertAndSend(&quot;topictest&quot;,&quot;goods.aaa&quot;,&quot;主题模式&quot;);&#125;@Testpublic void testSendTopic2()&#123; rabbitTemplate.convertAndSend(&quot;topictest&quot;,&quot;article.content.log&quot;,&quot;主题模式&quot;);&#125;@Testpublic void testSendTopic3()&#123; rabbitTemplate.convertAndSend(&quot;topictest&quot;,&quot;goods.log&quot;,&quot;主题模式&quot;);&#125;]]></content>
-  </entry>
-  <entry>
     <title><![CDATA[0]]></title>
     <url>%2F%E7%8B%97%E4%BB%94%2F0%2F</url>
     <content type="text"><![CDATA[阿凡达]]></content>
