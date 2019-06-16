@@ -110,7 +110,9 @@
 <meta property="og:image" content="http://yoursite.com/面试/集合面试/%E9%9B%86%E5%90%88%E9%9D%A2%E8%AF%95%5Cmap%E9%9B%86%E5%90%88%E4%BD%93%E7%B3%BB.png">
 <meta property="og:image" content="http://yoursite.com/面试/集合面试/集合体系总结.png">
 <meta property="og:image" content="http://yoursite.com/面试/集合面试/%E9%9B%86%E5%90%88%E9%9D%A2%E8%AF%95%5C%E9%9B%86%E5%90%88%E4%BD%93%E7%B3%BB%E6%80%BB%E7%BB%93.png">
-<meta property="og:updated_time" content="2019-06-11T00:47:16.703Z">
+<meta property="og:image" content="http://yoursite.com/面试/集合面试/ArrayList和linkedlist效率.png">
+<meta property="og:image" content="http://yoursite.com/面试/集合面试/%E9%9B%86%E5%90%88%E9%9D%A2%E8%AF%95%5CArrayList%E5%92%8Clinkedlist%E6%95%88%E7%8E%87.png">
+<meta property="og:updated_time" content="2019-06-11T14:02:07.492Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="集合面试">
 <meta name="twitter:description" content="集合面试集合分为单列集合和双列集合 单列集合单列集合的顶级接口是Collection,下面有两个接口List和Set，List接口下集合的特点是有序，可重复； Set接口下集合：无序，不可重复     双列集合   集合总结图   面试题1. 集合的线程安全安全的集合有Vector和HashTable, 线程不安全ArrayList、HashSet、HashMap可以通过Collections类方">
@@ -424,7 +426,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-06-11 08:47:16" itemprop="dateModified" datetime="2019-06-11T08:47:16+08:00">2019-06-11</time>
+                <time title="修改时间：2019-06-11 22:02:07" itemprop="dateModified" datetime="2019-06-11T22:02:07+08:00">2019-06-11</time>
               
             
           </span>
@@ -500,7 +502,14 @@
 <p>不管是同步集合还是并发集合他们都支持线程安全，他们之间主要的区别体现在<strong>性能</strong>和<strong>可扩展性</strong>，还有他们如何实现的线程安全。同步HashMap, Hashtable, HashSet, Vector, ArrayList 相比他们并发的实现（比如：ConcurrentHashMap, CopyOnWriteArrayList, CopyOnWriteHashSet）会慢得多。造成如此慢的主要原因是<strong>锁</strong>， <strong>同步集合会把整个Map或List锁起来</strong>，而并发集合不会。并发集合实现线程安全是通过使用先进的和成熟的技术像锁剥离。比如<strong>ConcurrentHashMap 会把整个Map 划分成几个片段，只对相关的几个片段上锁，同时允许多线程访问其他未上锁的片段</strong>。锁仅用于 put 和 remove 等改变集合对象的操作，基于 volatile 及 HashEntry 链表的不变性实现了<strong>读取的不加锁</strong>。 这些方式使得 ConcurrentHashMap 能够保持极好的并发支持， 尤其是对于读远比插入和删除频繁的 Map<br>而言，</p>
 <p>同样的，CopyOnWriteArrayList 允许多个线程以非同步的方式读，当有线程写的时候它会将整个List复制一个副本给它。</p>
 <p>如果在读多写少这种对并发集合有利的条件下使用并发集合，这会比使用同步集合更具有可伸缩性。</p>
-<h4 id="3-List-的三个子类的特点"><a href="#3-List-的三个子类的特点" class="headerlink" title="3. List 的三个子类的特点"></a>3. List 的三个子类的特点</h4><ol>
+<h4 id="3-List-的三个子类的特点"><a href="#3-List-的三个子类的特点" class="headerlink" title="3. List 的三个子类的特点"></a>3. List 的三个子类的特点</h4><p>复杂度有时间复杂度和空间复杂度：</p>
+<p>一个有 1000 个元素的 LinkedList 对象将有 1000 个链接在一起 的 Entry 对象；</p>
+<p>ArrayList 使用一个内置的数组来存 储元素，这个数组的起始容量是 10.当数组需要增长时，容量大概会增长 50%。 这就意味着，如果你有一个包含大量元素的 ArrayList 对象，那么最终将有很大的空间会被浪费掉，如果我们知道一个 ArrayList 将会有多少个元素，我们可以通过<strong>构造方法来指定容量</strong>。我们还可以通过 <strong>trimToSize</strong> 方法在 ArrayList 分配完毕之后去掉浪 费掉的空间。</p>
+<p><strong><em>总结：</em></strong>当操作是在一列数据的后面添加数据而不是在前面或中间,并且需要随机地访问其中的元素时,使用ArrayList 会提供比较好的性能；当你的操作是在一列数据的前面或中间添加或删除数据,并且按照顺序访问其中的元素时,就应该使用 LinkedList 了。</p>
+<img src="/面试/集合面试/ArrayList和linkedlist效率.png">
+
+<p><img src="%E9%9B%86%E5%90%88%E9%9D%A2%E8%AF%95%5CArrayList%E5%92%8Clinkedlist%E6%95%88%E7%8E%87.png" alt></p>
+<ol>
 <li><p>ArrayList 底层结构是数组,查询快,增删慢。如果只是用add方法的话，速度也可以，因为是在数组最后追加或删除元素，只会因为数组长度不够扩容影响速度。但是如果不是在最后追加或删除的话，插入元素后面的元素索引都会改变，速度慢。因为有索引，查找快。</p>
 </li>
 <li><p>LinkedList 底层结构是双向链表,增删快,查询慢。在LinkedList集合中的每个人都是随便站的。但是他们中的每个人都认识一个人。并且每两个认识的人之间都有一个链子把他们连接起来。所有人都连接完之后，<strong>顺着链子看，就也有一个顺序，每个人就也有一个序号，但是这个序号并没有标出来</strong>。也就是说相当于有一个隐式的序号。所以：比如我要叫4号出来的时候，他们并不知道自己到底谁是4号，所以就要顺着链子从头开始查一下，查到4号是谁了，4号就出来了。也就是说，每次要找n号位置的人时，都要从头查一遍，看谁是n号。所以查找比较麻烦。至于增删效率高，就很容易理解了。 indexof</p>
@@ -513,6 +522,34 @@
 <ol start="3">
 <li>voctor 底层结构是数组 线程安全的,增删慢,查询慢。</li>
 </ol>
+<h4 id="4-Collections集合工具类"><a href="#4-Collections集合工具类" class="headerlink" title="4. Collections集合工具类"></a>4. Collections集合工具类</h4><ul>
+<li><p><code>java.utils.Collections</code>是集合工具类，操作的对象是集合。部分方法使用如下：</p>
+</li>
+<li><p><code>public static &lt;T&gt; boolean addAll(Collection&lt;T&gt; c, T... elements)</code>:往传入集合中添加一些元素。</p>
+</li>
+<li><p><code>public static void shuffle(List&lt;?&gt; list)</code>:随机置换,即可以打乱集合顺序。</p>
+</li>
+<li><p><code>public static &lt;T&gt; void sort(List&lt;T&gt; list)</code>:将集合中元素按照默认规则排序,整数从小到大排序</p>
+</li>
+<li><p><code>public static &lt;T&gt; void sort(List&lt;T&gt; list，Comparator&lt;? super T&gt; c)</code>:将集合中元素按照指定规则排序。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        list.add(<span class="string">"cba"</span>);</span><br><span class="line">        list.add(<span class="string">"aba"</span>);</span><br><span class="line">        list.add(<span class="string">"sba"</span>);</span><br><span class="line">        list.add(<span class="string">"nba"</span>);</span><br><span class="line">        Collections.sort(list, <span class="keyword">new</span> Comparator&lt;String&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(String o1, String o2)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> o2.charAt(<span class="number">0</span>)-o1.charAt(<span class="number">0</span>);<span class="comment">//o2--o1降序；o1--o2升序</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        System.out.println(list);</span><br></pre></td></tr></table></figure>
+
+<h2 id="简述Comparable可比较接口和Comparator比较器接口的区别"><a href="#简述Comparable可比较接口和Comparator比较器接口的区别" class="headerlink" title="简述Comparable可比较接口和Comparator比较器接口的区别"></a>简述Comparable可比较接口和Comparator比较器接口的区别</h2><p>说到排序了，简单的说就是两个对象之间比较大小，那么在JAVA中提供了两种比较实现的方式，一种是比较死板的采用<code>java.lang.Comparable</code>接口去实现，一种是灵活的当我需要做排序的时候再去选择的<code>java.util.Comparator</code>接口完成。</p>
+<p>那么我们采用的<code>public static &lt;T&gt; void sort(List&lt;T&gt; list)</code>这个方法完成的排序，实际上<strong>要求了被排序的类型需要实现Comparable接口</strong>完成比较的功能，在String类型上如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">String</span> <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span>, <span class="title">Comparable</span>&lt;<span class="title">String</span>&gt;, <span class="title">CharSequence</span> </span>&#123;</span><br></pre></td></tr></table></figure>
+
+<p>String类实现了这个接口，并完成了比较规则的定义，但是这样就把这种规则写死了，那比如我想要字符串按照第一个字符降序排列，那么这样就要修改String的源代码，这是不可能的了，那么这个时候我们可以使用</p>
+<p><strong>Comparable</strong>：类内部实现比较器,默认规则</p>
+<p><strong>Comparator</strong>: 外比较器,类的外部自己写规则</p>
+<p>//<strong>记忆,不管是内比较器还是外比较器,只要排序都要实现这两个接口之一,</strong></p>
+<p><strong>如果两个接口都实现,优先考虑的外比较器Comparator</strong></p>
+</li>
+</ul>
+<h4 id="5-为什么要用-List-list-new-ArrayList-而不用-ArrayList-alist-new-ArrayList-呢？"><a href="#5-为什么要用-List-list-new-ArrayList-而不用-ArrayList-alist-new-ArrayList-呢？" class="headerlink" title="5. 为什么要用 List list = new ArrayList() ,而不用 ArrayList alist = new ArrayList()呢？"></a>5. <strong>为什么要用 List list = new ArrayList() ,而不用 ArrayList alist = new ArrayList()呢？</strong></h4><p>多态的好处： 问题就在于List有多个实现类，现在你用的是ArrayList，也许哪一天你需要换成其它的实现类，如 LinkedList或者Vector等等，这时你只要改变这一行就行了：  List list = new LinkedList(); 其它使用了list地方的代码根本不需要改动。  假设你开始用 ArrayList alist = new ArrayList(), 这下你有的改了，特别是如果你使用了 ArrayList特有的方法和属性。 </p>
+<p>List a=new ArrayList()和 ArrayList a =new ArrayList()的区别？</p>
+<p>List list = new ArrayList();这句创建了一个 ArrayList 的对象后把上溯到了 List。此时它是一个 List 对象了，有些<br>ArrayList 有但是 List 没有的属性和方法，它就不能再用了。而 ArrayList list=new ArrayList();创建一对象则保留了<br>ArrayList 的所有属性。 所以需要用到 ArrayList 独有的方法的时候不能用前者。实例代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>．List list = <span class="keyword">new</span> ArrayList();</span><br><span class="line"><span class="number">2</span>．ArrayList arrayList = <span class="keyword">new</span> ArrayList();</span><br><span class="line"><span class="number">3</span>．list.trimToSize(); <span class="comment">//错误，没有该方法。</span></span><br><span class="line"><span class="number">4</span>．arrayList.trimToSize(); <span class="comment">//ArrayList 里有该方法。</span></span><br></pre></td></tr></table></figure>
+
 <h4 id="2-字符串去重排序"><a href="#2-字符串去重排序" class="headerlink" title="2.  字符串去重排序"></a>2.  字符串去重排序</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//字符串去重并排序</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">RdSort</span><span class="params">(String str)</span></span>&#123;</span><br><span class="line">        String[] strs = str.split(<span class="string">""</span>);</span><br><span class="line">        TreeSet&lt;String&gt; stringTreeSet = <span class="keyword">new</span> TreeSet&lt;&gt;();<span class="comment">//使用TreeSet元素排序并去重的原理</span></span><br><span class="line">        <span class="keyword">for</span> (String s : strs) &#123;</span><br><span class="line">            stringTreeSet.add(s);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(stringTreeSet);</span><br><span class="line">        String stryes=<span class="string">""</span>;</span><br><span class="line">        <span class="keyword">for</span> (String s : stringTreeSet) &#123;</span><br><span class="line">            stryes+=s;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> stryes;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//字符串去重并保持原来顺序</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">rd</span><span class="params">(String str)</span></span>&#123;</span><br><span class="line">        String[] strs = str.split(<span class="string">""</span>);</span><br><span class="line">        LinkedHashSet&lt;String&gt; linkedHashSet = <span class="keyword">new</span> LinkedHashSet&lt;&gt;();<span class="comment">//利用LinkedHashSet</span></span><br><span class="line">        <span class="keyword">for</span> (String s : strs) &#123;</span><br><span class="line">            linkedHashSet.add(s);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(linkedHashSet);</span><br><span class="line">        String stryes=<span class="string">""</span>;</span><br><span class="line">        <span class="keyword">for</span> (String s : linkedHashSet) &#123;</span><br><span class="line">            stryes+=s;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> stryes;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
 
@@ -563,6 +600,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/微服务/springboot打包部署/" rel="prev" title="springboot打包与微服务部署">
+                springboot打包与微服务部署 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -633,7 +674,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -656,7 +697,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -685,7 +728,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">6</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -723,7 +770,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#集合面试"><span class="nav-number">1.</span> <span class="nav-text">集合面试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单列集合"><span class="nav-number">1.0.1.</span> <span class="nav-text">单列集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双列集合"><span class="nav-number">1.0.2.</span> <span class="nav-text">双列集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合总结图"><span class="nav-number">1.0.3.</span> <span class="nav-text">集合总结图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#面试题"><span class="nav-number">1.0.4.</span> <span class="nav-text">面试题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-集合的线程安全"><span class="nav-number">1.0.4.1.</span> <span class="nav-text">1. 集合的线程安全</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-并发集合"><span class="nav-number">1.0.4.2.</span> <span class="nav-text">2. 并发集合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-List-的三个子类的特点"><span class="nav-number">1.0.4.3.</span> <span class="nav-text">3. List 的三个子类的特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-字符串去重排序"><span class="nav-number">1.0.4.4.</span> <span class="nav-text">2.  字符串去重排序</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#集合面试"><span class="nav-number">1.</span> <span class="nav-text">集合面试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单列集合"><span class="nav-number">1.0.1.</span> <span class="nav-text">单列集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双列集合"><span class="nav-number">1.0.2.</span> <span class="nav-text">双列集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合总结图"><span class="nav-number">1.0.3.</span> <span class="nav-text">集合总结图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#面试题"><span class="nav-number">1.0.4.</span> <span class="nav-text">面试题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-集合的线程安全"><span class="nav-number">1.0.4.1.</span> <span class="nav-text">1. 集合的线程安全</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-并发集合"><span class="nav-number">1.0.4.2.</span> <span class="nav-text">2. 并发集合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-List-的三个子类的特点"><span class="nav-number">1.0.4.3.</span> <span class="nav-text">3. List 的三个子类的特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-Collections集合工具类"><span class="nav-number">1.0.4.4.</span> <span class="nav-text">4. Collections集合工具类</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简述Comparable可比较接口和Comparator比较器接口的区别"><span class="nav-number">1.1.</span> <span class="nav-text">简述Comparable可比较接口和Comparator比较器接口的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-为什么要用-List-list-new-ArrayList-而不用-ArrayList-alist-new-ArrayList-呢？"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">5. 为什么要用 List list = new ArrayList() ,而不用 ArrayList alist = new ArrayList()呢？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-字符串去重排序"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">2.  字符串去重排序</span></a></li></ol></li></ol></div>
             
 
           </div>
