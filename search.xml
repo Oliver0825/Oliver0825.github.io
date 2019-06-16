@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[git命令三部曲]]></title>
+    <url>%2Fgit%2Fgit%E5%91%BD%E4%BB%A4%E4%B8%89%E9%83%A8%E6%9B%B2%2F</url>
+    <content type="text"><![CDATA[git add . //管理当前目录下所有的文件，忽略文件除外 git commit -m “上传本地代码至远程仓库” 将本地代码推送到远程仓库，使用如下命令： git push]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[jenkins持续集成]]></title>
     <url>%2F%E5%BE%AE%E6%9C%8D%E5%8A%A1%2Fjenkins%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90%2F</url>
     <content type="text"><![CDATA[jenkins持续集成Jenkins持续集成 它是一个自动化的周期性的集成测试过程 保证团队开发人员提交代码的质量，减轻了软件发布时的压力]]></content>
